@@ -1,47 +1,64 @@
-package edu.bsuir.client_company_management.screens;
+package edu.bsuir.ss.screens;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import edu.bsuir.client_company_management.R;
+import edu.bsuir.ss.R;
+import edu.bsuir.ss.fragments.ContactsFragment;
+import edu.bsuir.ss.fragments.FoldersFragment;
+import edu.bsuir.ss.fragments.ManageFragment;
+import edu.bsuir.ss.fragments.WorkTasksFragment;
 
-public class SlidingMenu extends AppCompatActivity
+public class SlidingMenuActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = "STDUDE";
+    private Toolbar toolbar = null;
+    NavigationView navigationView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "start creation SLIDING MENU ACTIVITY");
         setContentView(R.layout.activity_sliding_menu);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_suits_solutions);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        if (drawer != null)
+        {
+            drawer.setDrawerListener(toggle);
+        }
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if (navigationView != null) {
+            navigationView.setNavigationItemSelectedListener(this);
+        }
+
+        replaceFragment(WorkTasksFragment.newInstance(), true);
+
+        Log.i(TAG, "end creation SLIDING MENU ACTIVITY");
+    }
+
+
+    @Override
+    protected void initViews() {
+
     }
 
     @Override
@@ -56,7 +73,6 @@ public class SlidingMenu extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.sliding_menu, menu);
         return true;
     }
@@ -79,23 +95,25 @@ public class SlidingMenu extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_work_tasks) {
-            // Handle the camera action
+
+            replaceFragment(WorkTasksFragment.newInstance(), true);
         } else if (id == R.id.nav_folders) {
-
+            replaceFragment(FoldersFragment.newInstance(), true);
         } else if (id == R.id.nav_contacts) {
-
+            replaceFragment(ContactsFragment.newInstance(), true);
         } else if (id == R.id.nav_manage) {
-
+            replaceFragment(ManageFragment.newInstance(), true);
         } else if (id == R.id.nav_share) {
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        if (drawer != null) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
         return true;
     }
 }

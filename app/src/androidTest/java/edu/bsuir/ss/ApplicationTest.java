@@ -1,4 +1,4 @@
-package edu.bsuir.client_company_management;
+package edu.bsuir.ss;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

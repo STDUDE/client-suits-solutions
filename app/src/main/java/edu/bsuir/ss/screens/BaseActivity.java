@@ -1,4 +1,4 @@
-package edu.bsuir.client_company_management.screens;
+package edu.bsuir.ss.screens;
 
 import android.app.ProgressDialog;
 import android.support.v4.app.Fragment;
@@ -13,7 +13,10 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Toast;
 
-import edu.bsuir.client_company_management.R;
+import edu.bsuir.ss.R;
+import edu.bsuir.ss.api.RestClient;
+import edu.bsuir.ss.api.RestFactory;
+import retrofit2.Call;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -110,7 +113,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         if (!fragmentPopped && manager.findFragmentByTag(backStateName) == null) {
             FragmentTransaction ft = manager.beginTransaction();
-            //ft.replace(R.id.tabcontainer, fragment, backStateName);
+            ft.replace(R.id.fragment_content, fragment, backStateName);
             if(addToBackStack)
                 ft.addToBackStack(backStateName);
             ft.commitAllowingStateLoss();
@@ -138,13 +141,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract void initViews();
 
-
-    /*public RestClient getClient(){
+    public RestClient getClient(){
         return RestFactory.getInstance().getClient();
     }
 
     protected <T> void enqueue(final Call<T> call, final RestFactory.CallbackResponse<T> result){
         RestFactory.enqueue(call, result, this);
-    }*/
+    }
 
 }
